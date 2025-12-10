@@ -110,8 +110,6 @@ export default function Retrieve() {
     <Box
       sx={{
         height: "100vh",
-        height: "100dvh", // Dynamic viewport height برای iOS
-        minHeight: "-webkit-fill-available", // Fallback برای Safari
         display: "flex",
         maxWidth: "600px",
         mx: "auto",
@@ -126,8 +124,7 @@ export default function Retrieve() {
           flexGrow: 1,
           mt: 4,
           px: 1,
-          pb: { xs: 4, sm: 2 }, // padding بیشتر در موبایل برای iOS
-          paddingBottom: { xs: "calc(16px + env(safe-area-inset-bottom))", sm: 2 }, // پشتیبانی از safe-area در iPhone
+          pb: { xs: 2, sm: 2 },
           display: "flex",
           flexDirection: "column",
           gap: 3,

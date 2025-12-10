@@ -203,120 +203,120 @@ export default function Step4() {
     }
   };
 
-  const handleDownloadPDF = async () => {
-    if (!cardRef.current) return;
+  // const handleDownloadPDF = async () => {
+  //   if (!cardRef.current) return;
 
-    try {
-      // استفاده از همان روش Canvas برای PDF
-      await waitForAssets();
+  //   try {
+  //     // استفاده از همان روش Canvas برای PDF
+  //     await waitForAssets();
       
-      // ایجاد یک canvas جدید
-      const cardWidth = 330;
-      const cardHeight = 550;
-      const scale = 2;
-      const canvas = document.createElement('canvas');
-      canvas.width = cardWidth * scale;
-      canvas.height = cardHeight * scale;
-      const ctx = canvas.getContext('2d');
-      ctx.scale(scale, scale);
+  //     // ایجاد یک canvas جدید
+  //     const cardWidth = 330;
+  //     const cardHeight = 550;
+  //     const scale = 2;
+  //     const canvas = document.createElement('canvas');
+  //     canvas.width = cardWidth * scale;
+  //     canvas.height = cardHeight * scale;
+  //     const ctx = canvas.getContext('2d');
+  //     ctx.scale(scale, scale);
       
-      // لود کردن تصویر پس‌زمینه کارت
-      const cardImage = new Image();
-      cardImage.crossOrigin = 'anonymous';
-      await new Promise((resolve, reject) => {
-        cardImage.onload = resolve;
-        cardImage.onerror = reject;
-        cardImage.src = '/images/card.jpg';
-      });
+  //     // لود کردن تصویر پس‌زمینه کارت
+  //     const cardImage = new Image();
+  //     cardImage.crossOrigin = 'anonymous';
+  //     await new Promise((resolve, reject) => {
+  //       cardImage.onload = resolve;
+  //       cardImage.onerror = reject;
+  //       cardImage.src = '/images/card.jpg';
+  //     });
       
-      // رسم تصویر پس‌زمینه
-      ctx.drawImage(cardImage, 0, 0, cardWidth, cardHeight);
+  //     // رسم تصویر پس‌زمینه
+  //     ctx.drawImage(cardImage, 0, 0, cardWidth, cardHeight);
       
-      // لود کردن تصویر کاربر
-      if (data.image) {
-        const userImage = new Image();
-        userImage.crossOrigin = 'anonymous';
-        await new Promise((resolve, reject) => {
-          userImage.onload = resolve;
-          userImage.onerror = () => {
-            console.warn('User image failed to load');
-            resolve();
-          };
-          userImage.src = data.image;
-        });
+  //     // لود کردن تصویر کاربر
+  //     if (data.image) {
+  //       const userImage = new Image();
+  //       userImage.crossOrigin = 'anonymous';
+  //       await new Promise((resolve, reject) => {
+  //         userImage.onload = resolve;
+  //         userImage.onerror = () => {
+  //           console.warn('User image failed to load');
+  //           resolve();
+  //         };
+  //         userImage.src = data.image;
+  //       });
         
-        if (userImage.complete && userImage.naturalWidth > 0) {
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(74 + 40, 226.5 + 40, 40, 0, Math.PI * 2);
-          ctx.clip();
-          ctx.drawImage(userImage, 74, 226.5, 80, 80);
-          ctx.restore();
-        }
-      }
+  //       if (userImage.complete && userImage.naturalWidth > 0) {
+  //         ctx.save();
+  //         ctx.beginPath();
+  //         ctx.arc(74 + 40, 226.5 + 40, 40, 0, Math.PI * 2);
+  //         ctx.clip();
+  //         ctx.drawImage(userImage, 74, 226.5, 80, 80);
+  //         ctx.restore();
+  //       }
+  //     }
       
-      // رسم متن
-      const baseUrl = window.location.origin;
+  //     // رسم متن
+  //     const baseUrl = window.location.origin;
       
-      const mediumFont = new FontFace('medium', `url(${baseUrl}/fonts/iranyekanwebmedium.woff)`);
-      const regularFont = new FontFace('regular', `url(${baseUrl}/fonts/iranyekanwebregular.woff)`);
+  //     const mediumFont = new FontFace('medium', `url(${baseUrl}/fonts/iranyekanwebmedium.woff)`);
+  //     const regularFont = new FontFace('regular', `url(${baseUrl}/fonts/iranyekanwebregular.woff)`);
       
-      await Promise.all([
-        mediumFont.load().then(font => document.fonts.add(font)),
-        regularFont.load().then(font => document.fonts.add(font))
-      ]);
+  //     await Promise.all([
+  //       mediumFont.load().then(font => document.fonts.add(font)),
+  //       regularFont.load().then(font => document.fonts.add(font))
+  //     ]);
       
-      await document.fonts.ready;
-      await new Promise(resolve => setTimeout(resolve, 500));
+  //     await document.fonts.ready;
+  //     await new Promise(resolve => setTimeout(resolve, 500));
       
-      ctx.fillStyle = 'white';
-      ctx.font = '15px medium';
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'top';
-      ctx.direction = 'rtl';
-      ctx.fillText(data.name, 170, 230);
+  //     ctx.fillStyle = 'white';
+  //     ctx.font = '15px medium';
+  //     ctx.textAlign = 'right';
+  //     ctx.textBaseline = 'top';
+  //     ctx.direction = 'rtl';
+  //     ctx.fillText(data.name, 170, 230);
       
-      const fieldText = data.field === "programmer"
-        ? "Developer"
-        : data.field === "uiux"
-        ? "UI/UX"
-        : data.field;
-      ctx.font = '16px regular';
-      ctx.fillText(fieldText, 170, 260);
+  //     const fieldText = data.field === "programmer"
+  //       ? "Developer"
+  //       : data.field === "uiux"
+  //       ? "UI/UX"
+  //       : data.field;
+  //     ctx.font = '16px regular';
+  //     ctx.fillText(fieldText, 170, 260);
       
-      // تبدیل به PDF
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: [canvas.width, canvas.height],
-      });
+  //     // تبدیل به PDF
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const pdf = new jsPDF({
+  //       orientation: "portrait",
+  //       unit: "px",
+  //       format: [canvas.width, canvas.height],
+  //     });
 
-      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save("makeen-card.pdf");
-    } catch (error) {
-      console.error("PDF Generate Error:", error);
-      // Fallback
-      try {
-        const canvas = await html2canvas(cardRef.current, {
-          useCORS: true,
-          allowTaint: false,
-          backgroundColor: null,
-          scale: window.devicePixelRatio || 2,
-        });
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF({
-          orientation: "portrait",
-          unit: "px",
-          format: [canvas.width, canvas.height],
-        });
-        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save("makeen-card.pdf");
-      } catch (fallbackError) {
-        console.error("Fallback Error:", fallbackError);
-      }
-    }
-  };
+  //     pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+  //     pdf.save("makeen-card.pdf");
+  //   } catch (error) {
+  //     console.error("PDF Generate Error:", error);
+  //     // Fallback
+  //     try {
+  //       const canvas = await html2canvas(cardRef.current, {
+  //         useCORS: true,
+  //         allowTaint: false,
+  //         backgroundColor: null,
+  //         scale: window.devicePixelRatio || 2,
+  //       });
+  //       const imgData = canvas.toDataURL("image/png");
+  //       const pdf = new jsPDF({
+  //         orientation: "portrait",
+  //         unit: "px",
+  //         format: [canvas.width, canvas.height],
+  //       });
+  //       pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+  //       pdf.save("makeen-card.pdf");
+  //     } catch (fallbackError) {
+  //       console.error("Fallback Error:", fallbackError);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     const retrieveRaw = localStorage.getItem("retrieve-data");
@@ -386,8 +386,6 @@ export default function Step4() {
     <Box
       sx={{
         height: "100vh",
-        height: "100dvh", // Dynamic viewport height برای iOS
-        minHeight: "-webkit-fill-available", // Fallback برای Safari
         maxWidth: "500px",
         mx: "auto",
         display: "flex",
@@ -494,8 +492,7 @@ export default function Step4() {
       <Box
         sx={{
           mt: "auto",
-          pb: { xs: 4, sm: 3 }, // padding بیشتر در موبایل برای iOS
-          paddingBottom: { xs: "calc(24px + env(safe-area-inset-bottom))", sm: 3 }, // پشتیبانی از safe-area در iPhone
+          pb: { xs: 3, sm: 3 },
           px: 1,
           display: "flex",
           flexDirection: "column",
@@ -524,7 +521,7 @@ export default function Step4() {
           دانلود کارت
         </Button>
 
-        <Button
+        {/* <Button
           variant="contained"
           sx={{ 
             fontFamily: "medium", 
@@ -544,7 +541,7 @@ export default function Step4() {
           onClick={handleDownloadPDF}
         >
           دانلود PDF
-        </Button>
+        </Button> */}
 
         <Button
           variant="outlined"

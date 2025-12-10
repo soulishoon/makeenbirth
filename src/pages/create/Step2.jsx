@@ -57,8 +57,6 @@ export default function Step2() {
     <Box
       sx={{
         height: "100vh",
-        height: "100dvh", // Dynamic viewport height برای iOS
-        minHeight: "-webkit-fill-available", // Fallback برای Safari
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
@@ -254,8 +252,7 @@ export default function Step2() {
       <Box
         sx={{
             mt: { xs: "auto", lg: "auto  " },
-            pb: { xs: 4, sm: 3 }, // padding بیشتر در موبایل برای iOS
-            paddingBottom: { xs: "calc(24px + env(safe-area-inset-bottom))", sm: 3 }, // پشتیبانی از safe-area در iPhone
+            pb: { xs: 3, sm: 3 },
             width: "100%",
             px: 1
         }}
