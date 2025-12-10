@@ -20,7 +20,7 @@ export default function Home() {
       <div className="h-screen flex flex-col bg-white pt-4 relative overflow-hidden items-center justify-center">
 
         {/* container بادکنک + متن */}
-        <div className="relative flex flex-row-reverse items-center justify-center w-full h-[72vh] px-4">
+        <div className="relative flex flex-row-reverse items-center justify-center w-full h-[64vh] px-4">
 
           <img
             src="/images/baloon.svg"

@@ -52,7 +52,7 @@ export default function Step1() {
         alignItems: "center",
         maxWidth: "500px",
         mx: "auto",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <Navbar step="step1" />
@@ -66,7 +66,7 @@ export default function Step1() {
           alignItems: "center",
           width: "100%",
           px: 1,
-          overflowY: "auto"
+          overflowY: "auto",
         }}
       >
         <RadioGroup
@@ -77,7 +77,8 @@ export default function Step1() {
             display: "flex",
             flexDirection: "column",
             gap: 2,
-            width: "100%"
+            width: "100%",
+            mt: 1,
           }}
         >
           <FormControlLabel
@@ -89,8 +90,8 @@ export default function Step1() {
                 sx={{
                   color: "#01144f",
                   "&.Mui-checked": {
-                    color: "#01144f"
-                  }
+                    color: "#01144f",
+                  },
                 }}
               />
             }
@@ -109,8 +110,8 @@ export default function Step1() {
                 borderColor: "#01144f",
                 backgroundColor: "rgba(1, 20, 79, 0.05)",
                 transform: "translateY(-2px)",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
-              }
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              },
             }}
           />
 
@@ -123,8 +124,8 @@ export default function Step1() {
                 sx={{
                   color: "#01144f",
                   "&.Mui-checked": {
-                    color: "#01144f"
-                  }
+                    color: "#01144f",
+                  },
                 }}
               />
             }
@@ -143,8 +144,8 @@ export default function Step1() {
                 borderColor: "#01144f",
                 backgroundColor: "rgba(1, 20, 79, 0.05)",
                 transform: "translateY(-2px)",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
-              }
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              },
             }}
           />
         </RadioGroup>
@@ -156,7 +157,7 @@ export default function Step1() {
             display: "flex",
             justifyContent: "center",
             px: 1,
-            flexShrink: 0
+            flexShrink: 0,
           }}
         >
           <Button
@@ -169,16 +170,16 @@ export default function Step1() {
               fontFamily: "medium",
               backgroundColor: status ? "#01144f" : "#c2c2c2",
               fontSize: "20px",
-              mt:40,
+              mt: 43,
               transition: "all 0.3s ease",
               "&:hover:not(:disabled)": {
                 backgroundColor: "#012a7a",
                 transform: "translateY(-2px)",
-                boxShadow: "0 4px 12px rgba(1, 20, 79, 0.3)"
+                boxShadow: "0 4px 12px rgba(1, 20, 79, 0.3)",
               },
               "&:active:not(:disabled)": {
-                transform: "translateY(0)"
-              }
+                transform: "translateY(0)",
+              },
             }}
           >
             ادامه
