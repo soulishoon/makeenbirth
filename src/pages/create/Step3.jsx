@@ -12,6 +12,7 @@ import {
   Paper
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { getApiUrl } from "../../utils/api";
 
 export default function Step3() {
   const navigate = useNavigate();
@@ -90,13 +91,31 @@ const handleNext = async () => {
       formData.append("image", blob, "photo.png");
     }
 
-    const res = await fetch("https://panel.makeenacademy.ir/api/guest/store", {
+    const url = getApiUrl("guest/store");
+    const res = await fetch(url, {
       method: "POST",
       body: formData,
     });
 
     if (!res.ok) {
       throw new Error("خطا در ارسال اطلاعات");
+    }
+
+    // بررسی Content-Type برای پاسخ
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      // اگر JSON است، پارس کن (اگر نیاز باشد)
+      try {
+        await res.json();
+      } catch (e) {
+        // اگر خطا در پارس بود، ادامه بده
+      }
+    } else if (contentType && !contentType.includes("application/json")) {
+      const text = await res.text();
+      if (text.includes("<!doctype") || text.includes("<html")) {
+        console.error("Expected JSON but got HTML:", text.substring(0, 200));
+        throw new Error("RESPONSE_NOT_JSON");
+      }
     }
 
     // ذخیره شماره تلفن

@@ -7,6 +7,7 @@ import { Box, Button, Typography, Modal, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { apiFetch } from "../../utils/api";
 
 export default function Step4() {
   const navigate = useNavigate();
@@ -343,24 +344,9 @@ export default function Step4() {
       return;
     }
 
-    fetch(`https://panel.makeenacademy.ir/api/guest/show/${phone}`, {
-      headers: {
-        'Accept': 'application/json',
-      }
+    apiFetch(`guest/show/${phone}`, {
+      method: "GET",
     })
-      .then(async (res) => {
-        if (!res.ok) {
-          throw new Error(`Server error: ${res.status}`);
-        }
-        // بررسی Content-Type قبل از پارس کردن JSON
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          const text = await res.text();
-          console.error("Expected JSON but got:", contentType, text.substring(0, 200));
-          throw new Error("RESPONSE_NOT_JSON");
-        }
-        return res.json();
-      })
       .then((data) => {
         if (!data || !data.Guest) {
           setModalText("اطلاعاتی از سرور یافت نشد");

@@ -13,6 +13,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import { apiFetch } from "../../utils/api";
 
 export default function Step1() {
   const [status, setStatus] = useState("");
@@ -26,32 +27,15 @@ export default function Step1() {
     if (!status) return;
 
     setLoading(true);
-    const url =
+    const endpoint =
       status === "graduate"
-        ? "/api/capacity/check/graduate"
-        : "/api/capacity/check/student";
+        ? "capacity/check/graduate"
+        : "capacity/check/student";
 
     try {
-      const res = await fetch(url, {
+      const data = await apiFetch(endpoint, {
         method: "GET",
-        headers: {
-          'Accept': 'application/json',
-        }
       });
-
-      if (!res.ok) {
-        throw new Error("SERVER_ERROR");
-      }
-
-      // بررسی Content-Type قبل از پارس کردن JSON
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await res.text();
-        console.error("Expected JSON but got:", contentType, text.substring(0, 200));
-        throw new Error("RESPONSE_NOT_JSON");
-      }
-
-      const data = await res.json();
 
       console.log("CAPACITY RESPONSE => ", data);
 

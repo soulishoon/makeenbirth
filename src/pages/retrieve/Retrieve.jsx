@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
+import { apiFetch } from "../../utils/api";
 
 export default function Retrieve() {
   const navigate = useNavigate();
@@ -34,29 +35,9 @@ export default function Retrieve() {
     setLoading(true);
 
     try {
-      // استفاده از API اصلی با proxy
-      const res = await fetch(`/api/guest/show/${phone}`, {
+      const data = await apiFetch(`guest/show/${phone}`, {
         method: "GET",
-        headers: {
-          'Accept': 'application/json',
-        }
       });
-
-      console.log("Response status:", res.status);
-
-      if (!res.ok) {
-        throw new Error(`Server error: ${res.status}`);
-      }
-
-      // بررسی Content-Type قبل از پارس کردن JSON
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await res.text();
-        console.error("Expected JSON but got:", contentType, text.substring(0, 200));
-        throw new Error("RESPONSE_NOT_JSON");
-      }
-
-      const data = await res.json();
       console.log("FULL API RESPONSE:", data);
 
       if (data.status === true && data.Guest) {
