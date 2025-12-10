@@ -170,7 +170,7 @@ export default function Step1() {
               fontFamily: "medium",
               backgroundColor: status ? "#01144f" : "#c2c2c2",
               fontSize: "20px",
-              mt: 43,
+              mt: 50,
               transition: "all 0.3s ease",
               "&:hover:not(:disabled)": {
                 backgroundColor: "#012a7a",
