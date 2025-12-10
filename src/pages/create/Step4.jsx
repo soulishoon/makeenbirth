@@ -343,8 +343,24 @@ export default function Step4() {
       return;
     }
 
-    fetch(`https://panel.makeenacademy.ir/api/guest/show/${phone}`)
-      .then((res) => res.json())
+    fetch(`https://panel.makeenacademy.ir/api/guest/show/${phone}`, {
+      headers: {
+        'Accept': 'application/json',
+      }
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
+        }
+        // بررسی Content-Type قبل از پارس کردن JSON
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await res.text();
+          console.error("Expected JSON but got:", contentType, text.substring(0, 200));
+          throw new Error("RESPONSE_NOT_JSON");
+        }
+        return res.json();
+      })
       .then((data) => {
         if (!data || !data.Guest) {
           setModalText("اطلاعاتی از سرور یافت نشد");
@@ -384,6 +400,8 @@ export default function Step4() {
     <Box
       sx={{
         height: "100vh",
+        height: "100dvh", // Dynamic viewport height برای iOS
+        minHeight: "-webkit-fill-available", // Fallback برای Safari
         maxWidth: "500px",
         mx: "auto",
         display: "flex",
@@ -490,7 +508,8 @@ export default function Step4() {
       <Box
         sx={{
           mt: "auto",
-          pb: 3,
+          pb: { xs: 4, sm: 3 }, // padding بیشتر در موبایل برای iOS
+          paddingBottom: { xs: "calc(24px + env(safe-area-inset-bottom))", sm: 3 }, // پشتیبانی از safe-area در iPhone
           px: 1,
           display: "flex",
           flexDirection: "column",

@@ -48,6 +48,14 @@ export default function Retrieve() {
         throw new Error(`Server error: ${res.status}`);
       }
 
+      // بررسی Content-Type قبل از پارس کردن JSON
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await res.text();
+        console.error("Expected JSON but got:", contentType, text.substring(0, 200));
+        throw new Error("RESPONSE_NOT_JSON");
+      }
+
       const data = await res.json();
       console.log("FULL API RESPONSE:", data);
 
@@ -106,7 +114,11 @@ export default function Retrieve() {
 
     } catch (err) {
       console.error("ERROR in retrieve:", err);
-      setModalText("مشکلی پیش آمده، دوباره تلاش کنید");
+      if (err.message === "RESPONSE_NOT_JSON") {
+        setModalText("خطا در ارتباط با سرور. لطفا دوباره تلاش کنید.");
+      } else {
+        setModalText("مشکلی پیش آمده، دوباره تلاش کنید");
+      }
       setOpenModal(true);
     } finally {
       setLoading(false);
@@ -117,6 +129,8 @@ export default function Retrieve() {
     <Box
       sx={{
         height: "100vh",
+        height: "100dvh", // Dynamic viewport height برای iOS
+        minHeight: "-webkit-fill-available", // Fallback برای Safari
         display: "flex",
         maxWidth: "600px",
         mx: "auto",
@@ -131,6 +145,8 @@ export default function Retrieve() {
           flexGrow: 1,
           mt: 4,
           px: 1,
+          pb: { xs: 4, sm: 2 }, // padding بیشتر در موبایل برای iOS
+          paddingBottom: { xs: "calc(16px + env(safe-area-inset-bottom))", sm: 2 }, // پشتیبانی از safe-area در iPhone
           display: "flex",
           flexDirection: "column",
           gap: 3,

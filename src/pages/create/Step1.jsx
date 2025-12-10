@@ -34,10 +34,21 @@ export default function Step1() {
     try {
       const res = await fetch(url, {
         method: "GET",
+        headers: {
+          'Accept': 'application/json',
+        }
       });
 
       if (!res.ok) {
         throw new Error("SERVER_ERROR");
+      }
+
+      // بررسی Content-Type قبل از پارس کردن JSON
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await res.text();
+        console.error("Expected JSON but got:", contentType, text.substring(0, 200));
+        throw new Error("RESPONSE_NOT_JSON");
       }
 
       const data = await res.json();
@@ -57,7 +68,11 @@ export default function Step1() {
       navigate("/create/step2");
     } catch (error) {
       console.error("CAPACITY CHECK ERROR:", error);
-      setCapacityMessage("خطایی رخ داد. لطفا دوباره تلاش کنید.");
+      if (error.message === "RESPONSE_NOT_JSON") {
+        setCapacityMessage("خطا در ارتباط با سرور. لطفا دوباره تلاش کنید.");
+      } else {
+        setCapacityMessage("خطایی رخ داد. لطفا دوباره تلاش کنید.");
+      }
       setOpenModal(true);
     } finally {
       setLoading(false);
@@ -86,6 +101,8 @@ export default function Step1() {
     <Box
       sx={{
         height: "100vh",
+        height: "100dvh", // Dynamic viewport height برای iOS
+        minHeight: "-webkit-fill-available", // Fallback برای Safari
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
@@ -193,7 +210,8 @@ export default function Step1() {
         <Box
           sx={{
             mt: "auto",
-            pb: 3,
+            pb: { xs: 4, sm: 3 }, // padding بیشتر در موبایل برای iOS
+            paddingBottom: { xs: "calc(24px + env(safe-area-inset-bottom))", sm: 3 }, // پشتیبانی از safe-area در iPhone
             width: "100%",
             display: "flex",
             justifyContent: "center",

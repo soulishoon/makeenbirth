@@ -9,6 +9,8 @@ html, body {
   overflow-y: hidden;
   width: 100%;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height برای iOS */
+  height: -webkit-fill-available; /* Fallback برای Safari قدیمی */
   position: relative;
   margin: 0;
   padding: 0;
@@ -19,6 +21,8 @@ html, body {
   overflow-y: hidden;
   width: 100%;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height برای iOS */
+  height: -webkit-fill-available; /* Fallback برای Safari قدیمی */
   position: relative;
 }
 
@@ -28,6 +32,8 @@ html, body {
     position: fixed;
     width: 100%;
     height: 100%;
+    height: 100dvh;
+    height: -webkit-fill-available;
     overflow: hidden;
   }
   
@@ -35,6 +41,8 @@ html, body {
     position: fixed;
     width: 100%;
     height: 100%;
+    height: 100dvh;
+    height: -webkit-fill-available;
     overflow: hidden;
   }
 }

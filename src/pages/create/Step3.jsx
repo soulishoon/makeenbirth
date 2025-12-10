@@ -123,6 +123,8 @@ const handleNext = async () => {
     <Box
       sx={{
         height: "100vh",
+        height: "100dvh", // Dynamic viewport height برای iOS
+        minHeight: "-webkit-fill-available", // Fallback برای Safari
         maxWidth: "500px",
         mx: "auto",
         display: "flex",
@@ -264,7 +266,12 @@ const handleNext = async () => {
           />
         </Box>
 
-        <Box sx={{ mt: "auto", pb: 3, px: 1 }}>
+        <Box sx={{ 
+          mt: "auto", 
+          pb: { xs: 4, sm: 3 }, // padding بیشتر در موبایل برای iOS
+          paddingBottom: { xs: "calc(24px + env(safe-area-inset-bottom))", sm: 3 }, // پشتیبانی از safe-area در iPhone
+          px: 1 
+        }}>
           <Button
             variant="contained"
             onClick={handleNext}
