@@ -56,12 +56,12 @@ export default function Step2() {
   return (
     <Box
       sx={{
-        height: "100vh",
-        overflow: "hidden",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-        mx: "auto"
+        mx: "auto",
+        pb: 2
       }}
     >
       <Navbar step="step2" />
@@ -74,8 +74,7 @@ export default function Step2() {
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          px: 1,
-          overflow: "hidden"
+          px: 1
         }}
       >
         {/* رشته */}

@@ -6,9 +6,9 @@
 
 html, body {
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   margin: 0;
   padding: 0;
@@ -30,9 +30,9 @@ html, body {
 
 #root {
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
 }
 
@@ -50,43 +50,41 @@ html, body {
   }
 }
 
-/* جلوگیری از اسکرول در موبایل */
+/* پشتیبانی از dynamic viewport height برای iOS در موبایل */
 @media (max-width: 768px) {
   html, body {
-    position: fixed;
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-y: auto;
   }
   
   @supports (height: 100dvh) {
     html, body {
-      height: 100dvh;
+      min-height: 100dvh;
     }
   }
   
   @supports (-webkit-touch-callout: none) {
     html, body {
-      height: -webkit-fill-available;
+      min-height: -webkit-fill-available;
     }
   }
   
   #root {
-    position: fixed;
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-y: auto;
   }
   
   @supports (height: 100dvh) {
     #root {
-      height: 100dvh;
+      min-height: 100dvh;
     }
   }
   
   @supports (-webkit-touch-callout: none) {
     #root {
-      height: -webkit-fill-available;
+      min-height: -webkit-fill-available;
     }
   }
 }

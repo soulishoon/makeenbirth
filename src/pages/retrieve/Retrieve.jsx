@@ -109,12 +109,12 @@ export default function Retrieve() {
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         maxWidth: "600px",
         mx: "auto",
         flexDirection: "column",
-        overflow: "hidden",
+        pb: 2
       }}
     >
       <Navbar step="retrieve" />

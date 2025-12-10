@@ -84,13 +84,13 @@ export default function Step1() {
   return (
     <Box
       sx={{
-        height: "100vh",
-        overflow: "hidden",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         maxWidth: "500px",
-        mx: "auto"
+        mx: "auto",
+        pb: 2
       }}
     >
       <Navbar step="step1" />

@@ -385,12 +385,12 @@ export default function Step4() {
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
         maxWidth: "500px",
         mx: "auto",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
+        pb: 2
       }}
     >
       <Navbar step="step4" />
