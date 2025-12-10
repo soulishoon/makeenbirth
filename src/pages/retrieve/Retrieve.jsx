@@ -226,6 +226,8 @@ export default function Retrieve() {
             onClick={() => setOpenModal(false)}
             sx={{
               width: "100%",
+              height: "55px",
+              fontSize: "20px",
               fontFamily: "medium",
               backgroundColor: "#01144f",
               transition: "all 0.3s ease",

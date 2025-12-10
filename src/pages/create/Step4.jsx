@@ -517,7 +517,7 @@ export default function Step4() {
             fontFamily: "medium", 
             backgroundColor: "#01144f",
             height: "55px",
-            fontSize: "18px",
+            fontSize: "20px",
             transition: "all 0.3s ease",
             "&:hover": {
               backgroundColor: "#012a7a",
@@ -561,7 +561,7 @@ export default function Step4() {
           sx={{ 
             fontFamily: "medium",
             height: "55px",
-            fontSize: "18px",
+            fontSize: "20px",
             borderColor: "#01144f",
             color: "#01144f",
             transition: "all 0.3s ease",
@@ -613,6 +613,9 @@ export default function Step4() {
             variant="contained"
             onClick={() => setOpenModal(false)}
             sx={{ 
+              width: "100%",
+              height: "55px",
+              fontSize: "20px",
               fontFamily: "medium", 
               backgroundColor: "#01144f",
               transition: "all 0.3s ease",

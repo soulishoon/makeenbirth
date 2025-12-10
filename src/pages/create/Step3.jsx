@@ -21,6 +21,8 @@ export default function Step3() {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openPhoneModal, setOpenPhoneModal] = useState(false);
+  const [openCapacityModal, setOpenCapacityModal] = useState(false);
+  const [capacityMessage, setCapacityMessage] = useState("");
 
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -103,19 +105,32 @@ const handleNext = async () => {
 
     // بررسی Content-Type برای پاسخ
     const contentType = res.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      // اگر JSON است، پارس کن (اگر نیاز باشد)
+    let responseData = null;
+    
+    // خواندن response به صورت text
+    const text = await res.text();
+    
+    // اگر HTML است، خطا بده
+    if (text.includes("<!doctype") || text.includes("<html")) {
+      console.error("Expected JSON but got HTML:", text.substring(0, 200));
+      throw new Error("RESPONSE_NOT_JSON");
+    }
+    
+    // سعی کن JSON پارس کنی
+    if (text && text.trim()) {
       try {
-        await res.json();
+        responseData = JSON.parse(text);
       } catch (e) {
-        // اگر خطا در پارس بود، ادامه بده
+        console.error("Failed to parse JSON:", e);
+        // اگر نتوانستیم پارس کنیم، ادامه بده (ممکن است response خالی باشد)
       }
-    } else if (contentType && !contentType.includes("application/json")) {
-      const text = await res.text();
-      if (text.includes("<!doctype") || text.includes("<html")) {
-        console.error("Expected JSON but got HTML:", text.substring(0, 200));
-        throw new Error("RESPONSE_NOT_JSON");
-      }
+    }
+
+    // بررسی status: "full"
+    if (responseData && responseData.status === "full") {
+      setCapacityMessage(responseData.message || "ظرفیت پر شده است");
+      setOpenCapacityModal(true);
+      return;
     }
 
     // ذخیره شماره تلفن
@@ -130,7 +145,9 @@ const handleNext = async () => {
 
     navigate("/create/step4");
   } catch (err) {
-    alert(err.message || "خطایی رخ داده");
+    // نمایش خطا در Modal به جای alert
+    setCapacityMessage(err.message || "خطایی رخ داده است. لطفا دوباره تلاش کنید.");
+    setOpenCapacityModal(true);
   } finally {
     setLoading(false);
   }
@@ -413,9 +430,11 @@ const handleNext = async () => {
           <Button
             variant="contained"
             sx={{
-              width: "80%",
+              width: "100%",
+              height: "55px",
+              fontSize: "20px",
               backgroundColor: "#CF7721",
-              fontFamily: "regular",
+              fontFamily: "medium",
               transition: "all 0.3s ease",
               "&:hover": {
                 backgroundColor: "#b8651a",
@@ -424,6 +443,60 @@ const handleNext = async () => {
               }
             }}
             onClick={() => setOpenPhoneModal(false)}
+          >
+            متوجه شدم
+          </Button>
+        </Paper>
+      </Modal>
+
+      <Modal 
+        open={openCapacityModal} 
+        onClose={() => setOpenCapacityModal(false)}
+        sx={{
+          backdropFilter: "blur(4px)",
+          "& .MuiBackdrop-root": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }}
+      >
+        <Paper
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: { xs: "90%", sm: 400 },
+            maxWidth: 400,
+            p: 3,
+            borderRadius: 3,
+            textAlign: "center",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+            animation: "scaleIn 0.2s ease-out"
+          }}
+        >
+          <Typography sx={{ fontFamily: "regular", mb: 2, fontSize: "16px" }}>
+            {capacityMessage}
+          </Typography>
+
+          <Button
+            variant="contained"
+            sx={{
+              width: "100%",
+              height: "55px",
+              fontSize: "20px",
+              backgroundColor: "#01144f",
+              fontFamily: "medium",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#012a7a",
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 12px rgba(1, 20, 79, 0.3)"
+              }
+            }}
+            onClick={() => {
+              setOpenCapacityModal(false);
+              navigate("/");
+            }}
           >
             متوجه شدم
           </Button>

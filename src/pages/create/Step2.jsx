@@ -62,7 +62,7 @@ export default function Step2() {
         flexDirection: "column",
         maxWidth: "500px",
         mx: "auto",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <Navbar step="step2" />
@@ -76,7 +76,7 @@ export default function Step2() {
           flexDirection: "column",
           gap: 3,
           px: 1,
-          overflowY: "auto"
+          overflowY: "auto",
         }}
       >
         {/* رشته */}
@@ -89,30 +89,30 @@ export default function Step2() {
               fontFamily: "regular",
               opacity: major ? 0 : 1,
               pointerEvents: "none",
-              color: "grey"
+              color: "grey",
             }}
           >
             رشته تحصیلی
           </InputLabel>
 
-          <Select 
-            value={major} 
-            onChange={(e) => setMajor(e.target.value)} 
-            sx={{ 
-              ...rtlSelectStyle, 
+          <Select
+            value={major}
+            onChange={(e) => setMajor(e.target.value)}
+            sx={{
+              ...rtlSelectStyle,
               fontFamily: "regular",
               transition: "all 0.3s ease",
               "&:hover": {
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#01144f"
-                }
+                  borderColor: "#01144f",
+                },
               },
               "&.Mui-focused": {
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#01144f",
-                  borderWidth: 2
-                }
-              }
+                  borderWidth: 2,
+                },
+              },
             }}
           >
             <MenuItem value="programmer" sx={{ fontFamily: "regular" }}>
@@ -134,37 +134,37 @@ export default function Step2() {
               fontFamily: "regular",
               opacity: bootcamp ? 0 : 1,
               pointerEvents: "none",
-              color: "grey"
+              color: "grey",
             }}
           >
             شماره بوتکمپ
           </span>
 
-          <Select 
-            value={bootcamp} 
-            onChange={(e) => setBootcamp(e.target.value)} 
-            sx={{ 
-              ...rtlSelectStyle, 
+          <Select
+            value={bootcamp}
+            onChange={(e) => setBootcamp(e.target.value)}
+            sx={{
+              ...rtlSelectStyle,
               fontFamily: "regular",
               transition: "all 0.3s ease",
               "&:hover": {
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#01144f"
-                }
+                  borderColor: "#01144f",
+                },
               },
               "&.Mui-focused": {
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#01144f",
-                  borderWidth: 2
-                }
-              }
+                  borderWidth: 2,
+                },
+              },
             }}
           >
             {(status === "student"
               ? [
                   { value: "20", label: "بیستم (20)" },
                   { value: "21", label: "بیست و یکم (21)" },
-                  { value: "22", label: "بیست و دوم (22)" }
+                  { value: "22", label: "بیست و دوم (22)" },
                 ]
               : [
                   { value: "19", label: "نوزدهم (19)" },
@@ -182,10 +182,14 @@ export default function Step2() {
                   { value: "7", label: "هفتم (7)" },
                   { value: "6", label: "ششم (6)" },
                   { value: "5", label: "پنجم (5)" },
-                  { value: "4", label: "چهارم (4)" }
+                  { value: "4", label: "چهارم (4)" },
                 ]
             ).map((b) => (
-              <MenuItem key={b.value} value={b.value} sx={{ fontFamily: "regular" }}>
+              <MenuItem
+                key={b.value}
+                value={b.value}
+                sx={{ fontFamily: "regular" }}
+              >
                 {b.label}
               </MenuItem>
             ))}
@@ -203,7 +207,7 @@ export default function Step2() {
                 position: "absolute",
                 right: "30px",
                 fontFamily: "regular",
-                color: "grey"
+                color: "grey",
               }}
             >
               زبان برنامه‌نویسی
@@ -212,21 +216,21 @@ export default function Step2() {
             <Select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              sx={{ 
-                ...rtlSelectStyle, 
+              sx={{
+                ...rtlSelectStyle,
                 fontFamily: "regular",
                 transition: "all 0.3s ease",
                 "&:hover": {
                   "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#01144f"
-                  }
+                    borderColor: "#01144f",
+                  },
                 },
                 "&.Mui-focused": {
                   "& .MuiOutlinedInput-notchedOutline": {
                     borderColor: "#01144f",
-                    borderWidth: 2
-                  }
-                }
+                    borderWidth: 2,
+                  },
+                },
               }}
               renderValue={(value) => {
                 const item = langs.find((l) => l.value === value);
@@ -235,11 +239,17 @@ export default function Step2() {
                     <img src={item.icon} width={22} />
                     {item.label}
                   </Box>
-                ) : "انتخاب کنید";
+                ) : (
+                  "انتخاب کنید"
+                );
               }}
             >
               {langs.map((l) => (
-                <MenuItem key={l.value} value={l.value} sx={{ fontFamily: "regular" }}>
+                <MenuItem
+                  key={l.value}
+                  value={l.value}
+                  sx={{ fontFamily: "regular" }}
+                >
                   <img src={l.icon} width={22} />
                   <ListItemText>{l.label}</ListItemText>
                 </MenuItem>
@@ -252,18 +262,21 @@ export default function Step2() {
       {/* دکمه ثابت پایین */}
       <Box
         sx={{
-            pb: { xs: 3, sm: 3 },
-            width: "100%",
-            px: 1,
-            flexShrink: 0
+          pb: { xs: 3, sm: 3 },
+          width: "100%",
+          px: 1,
+          flexShrink: 0,
         }}
       >
         <Button
           variant="contained"
-          disabled={!major || !bootcamp || (major === "programmer" && !language)}
+          disabled={
+            !major || !bootcamp || (major === "programmer" && !language)
+          }
           onClick={handleGoNext}
           sx={{
-            width: "100%",
+            width: "98%",
+            // margin: "0 4px 0 4px",
             height: "55px",
             fontSize: "20px",
             fontFamily: "medium",
@@ -272,11 +285,11 @@ export default function Step2() {
             "&:hover:not(:disabled)": {
               backgroundColor: "#012a7a",
               transform: "translateY(-2px)",
-              boxShadow: "0 4px 12px rgba(1, 20, 79, 0.3)"
+              boxShadow: "0 4px 12px rgba(1, 20, 79, 0.3)",
             },
             "&:active:not(:disabled)": {
-              transform: "translateY(0)"
-            }
+              transform: "translateY(0)",
+            },
           }}
         >
           ادامه

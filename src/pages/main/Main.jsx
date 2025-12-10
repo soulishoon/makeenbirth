@@ -71,7 +71,7 @@ export default function Home() {
           <button
             onClick={() => navigate("/create/step1")}
             className="bg-[#01144f] text-white text-xl font-[kalamehregular]
-             py-3 rounded-lg transition-all duration-300 w-full 
+             h-[55px] rounded-lg transition-all duration-300 w-full 
              hover:bg-[#012a7a] hover:shadow-lg hover:scale-[1.02]
              active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#01144f] focus:ring-offset-2"
           >
@@ -81,7 +81,7 @@ export default function Home() {
           <button
             onClick={() => navigate("/retrieve")}
             className="bg-white border-2 border-[#01144f] text-[#01144f] text-xl font-[kalamehregular]
-            py-3 rounded-lg transition-all duration-300 w-full
+            h-[55px] rounded-lg transition-all duration-300 w-full
             hover:bg-gray-50 hover:shadow-md hover:scale-[1.02]
             active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#01144f] focus:ring-offset-2"
           >
