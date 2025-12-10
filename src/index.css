@@ -91,31 +91,31 @@ html, body {
 
 @font-face {
   font-family: medium;
-  src: url(../public/fonts/iranyekanwebmedium.woff);
+  src: url(/fonts/iranyekanwebmedium.woff);
   font-display: block;
 }
 @font-face {
   font-family: bold;
-  src: url(../public/fonts/iranyekanwebbold.woff);
+  src: url(/fonts/iranyekanwebbold.woff);
   font-display: block;
 }
 @font-face {
   font-family: regular;
-  src: url(../public/fonts/iranyekanwebregular.woff);
+  src: url(/fonts/iranyekanwebregular.woff);
   font-display: block;
 }
 
 
 @font-face {
   font-family: kalamehregular;
-  src: url(../public/fonts/Kalameh-Regular.ttf);
-  font-display: block;
+  src: url(/fonts/Kalameh-Regular.ttf);
+  font-display: swap;
 }
 
 @font-face {
   font-family: kalamehmedium;
-  src: url(../public/fonts/Kalameh-Medium.ttf);
-  font-display: block;
+  src: url(/fonts/Kalameh-Medium.ttf);
+  font-display: swap;
 }
 
 @keyframes scaleIn {

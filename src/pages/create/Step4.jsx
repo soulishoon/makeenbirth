@@ -38,7 +38,7 @@ export default function Step4() {
   const waitForAssets = async () => {
     // صبر کردن تا فونت‌ها لود شوند
     await document.fonts.ready;
-    
+
     // اطمینان از لود شدن همه فونت‌های فارسی با تست واقعی
     const testText = 'تست';
     const fontsToLoad = [
@@ -48,7 +48,7 @@ export default function Step4() {
       { name: 'kalamehregular', test: `16px "kalamehregular"` },
       { name: 'kalamehmedium', test: `16px "kalamehmedium"` }
     ];
-    
+
     // صبر تا همه فونت‌ها لود شوند
     let allLoaded = false;
     let attempts = 0;
@@ -61,10 +61,10 @@ export default function Step4() {
         attempts++;
       }
     }
-    
+
     // صبر اضافی برای اطمینان از رندر شدن فونت‌ها
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     if (imageReady) return;
     await new Promise((resolve) => {
       const start = Date.now();
@@ -77,23 +77,30 @@ export default function Step4() {
     });
   };
 
+
+
+
+
   const handleDownload = async () => {
     if (!cardRef.current) return;
 
     try {
       // روش جدید: استفاده از SVG برای رندر کردن متن فارسی
       await waitForAssets();
-      
+
       // ایجاد یک canvas جدید
-      const cardWidth = 330;
-      const cardHeight = 550;
+      // const cardWidth = 330;
+      // const cardHeight = 550;
+      const cardWidth = cardImage.width;
+      const cardHeight = cardImage.height;
+
       const scale = 2;
       const canvas = document.createElement('canvas');
       canvas.width = cardWidth * scale;
       canvas.height = cardHeight * scale;
       const ctx = canvas.getContext('2d');
       ctx.scale(scale, scale);
-      
+
       // لود کردن تصویر پس‌زمینه کارت
       const cardImage = new Image();
       cardImage.crossOrigin = 'anonymous';
@@ -102,10 +109,10 @@ export default function Step4() {
         cardImage.onerror = reject;
         cardImage.src = '/images/card.jpg';
       });
-      
+
       // رسم تصویر پس‌زمینه
       ctx.drawImage(cardImage, 0, 0, cardWidth, cardHeight);
-      
+
       // لود کردن تصویر کاربر
       if (data.image) {
         const userImage = new Image();
@@ -118,7 +125,7 @@ export default function Step4() {
           };
           userImage.src = data.image;
         });
-        
+
         if (userImage.complete && userImage.naturalWidth > 0) {
           // موقعیت عکس: در HTML از right: 74 استفاده شده
           // در Canvas باید از چپ محاسبه شود: cardWidth - right - width = 330 - 74 - 80 = 176
@@ -126,7 +133,7 @@ export default function Step4() {
           const imageY = 226.5;
           const imageSize = 80;
           const radius = imageSize / 2; // 40
-          
+
           // رسم تصویر کاربر به صورت دایره‌ای
           ctx.save();
           ctx.beginPath();
@@ -135,47 +142,46 @@ export default function Step4() {
           ctx.drawImage(userImage, imageX, imageY, imageSize, imageSize);
           ctx.restore();
         }
-      }
-      
-      // رسم متن با استفاده از Canvas API
-      // لود کردن فونت‌ها و اطمینان از لود شدن
+      };
       const baseUrl = window.location.origin;
-      
-      // لود کردن فونت‌ها
-      const mediumFont = new FontFace('medium', `url(${baseUrl}/fonts/iranyekanwebmedium.woff)`);
-      const regularFont = new FontFace('regular', `url(${baseUrl}/fonts/iranyekanwebregular.woff)`);
-      
+      const mediumFont = new FontFace("medium", `url(${baseUrl}/fonts/iranyekanwebmedium.woff)`);
+      const regularFont = new FontFace("regular", `url(${baseUrl}/fonts/iranyekanwebregular.woff)`);
+
       await Promise.all([
-        mediumFont.load().then(font => document.fonts.add(font)),
-        regularFont.load().then(font => document.fonts.add(font))
+        mediumFont.load().then(f => document.fonts.add(f)),
+        regularFont.load().then(f => document.fonts.add(f)),
       ]);
-      
-      // صبر برای اطمینان از لود شدن فونت‌ها
+
       await document.fonts.ready;
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // رسم نام
-      // در HTML از right: 170 استفاده شده، در Canvas باید از چپ محاسبه شود
-      // با textAlign: 'right'، x موقعیت انتهای راست متن است
-      ctx.fillStyle = 'white';
+      await new Promise(resolve => setTimeout(resolve, 300)); // کمی تاخیر برای اطمینان
+
+       ctx.fillStyle = 'white';
       ctx.font = '15px medium';
       ctx.textAlign = 'right';
       ctx.textBaseline = 'top';
       ctx.direction = 'rtl';
-      
-      // موقعیت از سمت راست: cardWidth - right = 330 - 170 = 160
-      const nameX = cardWidth - 170;
+
+      // Name - با فونت iranyekan و سایز 20px
+       const nameX = cardWidth - 170;
       ctx.fillText(data.name, nameX, 230);
-      
-      // رسم رشته
-      const fieldText = data.field === "programmer"
-        ? "Developer"
-        : data.field === "uiux"
-        ? "UI/UX"
-        : data.field;
-      ctx.font = '16px regular';
-      ctx.fillText(fieldText, nameX, 260);
-      
+
+      // Field
+      const fieldText =
+        data.field === "programmer" ? "Developer" :
+          data.field === "uiux" ? "UI/UX" :
+            data.field;
+      ctx.font = "16px regular";
+      ctx.fillText(fieldText, nameX , 260);
+
+
+
+
+
+
+
+
+
+
       // تبدیل به تصویر و دانلود
       const img = canvas.toDataURL("image/png");
       const link = document.createElement("a");
@@ -203,120 +209,10 @@ export default function Step4() {
     }
   };
 
-  // const handleDownloadPDF = async () => {
-  //   if (!cardRef.current) return;
 
-  //   try {
-  //     // استفاده از همان روش Canvas برای PDF
-  //     await waitForAssets();
-      
-  //     // ایجاد یک canvas جدید
-  //     const cardWidth = 330;
-  //     const cardHeight = 550;
-  //     const scale = 2;
-  //     const canvas = document.createElement('canvas');
-  //     canvas.width = cardWidth * scale;
-  //     canvas.height = cardHeight * scale;
-  //     const ctx = canvas.getContext('2d');
-  //     ctx.scale(scale, scale);
-      
-  //     // لود کردن تصویر پس‌زمینه کارت
-  //     const cardImage = new Image();
-  //     cardImage.crossOrigin = 'anonymous';
-  //     await new Promise((resolve, reject) => {
-  //       cardImage.onload = resolve;
-  //       cardImage.onerror = reject;
-  //       cardImage.src = '/images/card.jpg';
-  //     });
-      
-  //     // رسم تصویر پس‌زمینه
-  //     ctx.drawImage(cardImage, 0, 0, cardWidth, cardHeight);
-      
-  //     // لود کردن تصویر کاربر
-  //     if (data.image) {
-  //       const userImage = new Image();
-  //       userImage.crossOrigin = 'anonymous';
-  //       await new Promise((resolve, reject) => {
-  //         userImage.onload = resolve;
-  //         userImage.onerror = () => {
-  //           console.warn('User image failed to load');
-  //           resolve();
-  //         };
-  //         userImage.src = data.image;
-  //       });
-        
-  //       if (userImage.complete && userImage.naturalWidth > 0) {
-  //         ctx.save();
-  //         ctx.beginPath();
-  //         ctx.arc(74 + 40, 226.5 + 40, 40, 0, Math.PI * 2);
-  //         ctx.clip();
-  //         ctx.drawImage(userImage, 74, 226.5, 80, 80);
-  //         ctx.restore();
-  //       }
-  //     }
-      
-  //     // رسم متن
-  //     const baseUrl = window.location.origin;
-      
-  //     const mediumFont = new FontFace('medium', `url(${baseUrl}/fonts/iranyekanwebmedium.woff)`);
-  //     const regularFont = new FontFace('regular', `url(${baseUrl}/fonts/iranyekanwebregular.woff)`);
-      
-  //     await Promise.all([
-  //       mediumFont.load().then(font => document.fonts.add(font)),
-  //       regularFont.load().then(font => document.fonts.add(font))
-  //     ]);
-      
-  //     await document.fonts.ready;
-  //     await new Promise(resolve => setTimeout(resolve, 500));
-      
-  //     ctx.fillStyle = 'white';
-  //     ctx.font = '15px medium';
-  //     ctx.textAlign = 'right';
-  //     ctx.textBaseline = 'top';
-  //     ctx.direction = 'rtl';
-  //     ctx.fillText(data.name, 170, 230);
-      
-  //     const fieldText = data.field === "programmer"
-  //       ? "Developer"
-  //       : data.field === "uiux"
-  //       ? "UI/UX"
-  //       : data.field;
-  //     ctx.font = '16px regular';
-  //     ctx.fillText(fieldText, 170, 260);
-      
-  //     // تبدیل به PDF
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const pdf = new jsPDF({
-  //       orientation: "portrait",
-  //       unit: "px",
-  //       format: [canvas.width, canvas.height],
-  //     });
 
-  //     pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-  //     pdf.save("makeen-card.pdf");
-  //   } catch (error) {
-  //     console.error("PDF Generate Error:", error);
-  //     // Fallback
-  //     try {
-  //       const canvas = await html2canvas(cardRef.current, {
-  //         useCORS: true,
-  //         allowTaint: false,
-  //         backgroundColor: null,
-  //         scale: window.devicePixelRatio || 2,
-  //       });
-  //       const imgData = canvas.toDataURL("image/png");
-  //       const pdf = new jsPDF({
-  //         orientation: "portrait",
-  //         unit: "px",
-  //         format: [canvas.width, canvas.height],
-  //       });
-  //       pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-  //       pdf.save("makeen-card.pdf");
-  //     } catch (fallbackError) {
-  //       console.error("Fallback Error:", fallbackError);
-  //     }
-  //   }
-  // };
+
+
 
   useEffect(() => {
     const retrieveRaw = localStorage.getItem("retrieve-data");
@@ -335,7 +231,7 @@ export default function Step4() {
           });
           return;
         }
-      } catch (_) {}
+      } catch (_) { }
     }
 
     const phone = localStorage.getItem("signup-phone");
@@ -441,62 +337,63 @@ export default function Step4() {
             }
           }}
         >
-        {/* PHOTO */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: 226.5,
-            right: 74,
-            width: 80,
-            height: 80,
-            borderRadius: "50%",
-          }}
-        >
-          {data.image ? (
-            <img
-              src={data.image}
-              crossOrigin="anonymous"
-              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
-              onLoad={() => setImageReady(true)}
-              onError={() => setImageReady(true)}
-            />
-          ) : (
-            <div style={{ width: "100%", height: "100%", background: "#eee" }} />
-          )}
+          {/* PHOTO */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: 225.5,
+              right: 74.75,
+              width: 80,
+              height: 80,
+              borderRadius: "50%",
+            }}
+          >
+            {data.image ? (
+              <img
+                src={data.image}
+                crossOrigin="anonymous"
+                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%", border: "2px solid rgb(255, 170 , 0 )", padding: "3px" }}
+                onLoad={() => setImageReady(true)}
+                onError={() => setImageReady(true)}
+              />
+            ) : (
+              <div style={{ width: "100%", height: "100%", background: "#eee" }} />
+            )}
+          </Box>
+
+          {/* NAME */}
+          <Typography
+            sx={{
+              position: "absolute",
+              top: 225,
+              right: 170,
+              fontFamily: "kalamehmedium",
+              fontSize: "20px",
+              color: "white",
+            }}
+          >
+            {data.name}
+          </Typography>
+
+          {/* FIELD */}
+          <Typography
+            sx={{
+              position: "absolute",
+              top: 260,
+              right: 170,
+              fontFamily: "kalamehmedium",
+              fontSize: "20px",
+              fontWeight: 400,
+              color: "white",
+            }}
+          >
+            {data.field === "programmer"
+              ? "Developer"
+              : data.field === "uiux"
+                ? "UI/UX"
+                : data.field}
+          </Typography>
         </Box>
-
-        {/* NAME */}
-        <Typography
-          sx={{
-            position: "absolute",
-            top: 230,
-            right: 170,
-            fontFamily: "medium",
-            fontSize: "15px",
-            color: "white",
-          }}
-        >
-          {data.name}
-        </Typography>
-
-        {/* FIELD */}
-        <Typography
-          sx={{
-            position: "absolute",
-            top: 260,
-            right: 170,
-            fontFamily: "regular",
-            fontSize: "16px",
-            color: "white",
-          }}
-        >
-          {data.field === "programmer"
-            ? "Developer"
-            : data.field === "uiux"
-            ? "UI/UX"
-            : data.field}
-        </Typography>
-      </Box>
 
       </Box>
 
@@ -513,8 +410,8 @@ export default function Step4() {
       >
         <Button
           variant="contained"
-          sx={{ 
-            fontFamily: "medium", 
+          sx={{
+            fontFamily: "medium",
             backgroundColor: "#01144f",
             height: "55px",
             fontSize: "20px",
@@ -558,7 +455,7 @@ export default function Step4() {
         <Button
           variant="outlined"
           onClick={() => navigate("/")}
-          sx={{ 
+          sx={{
             fontFamily: "medium",
             height: "55px",
             fontSize: "20px",
@@ -581,8 +478,8 @@ export default function Step4() {
       </Box>
 
       {/* MODAL */}
-      <Modal 
-        open={openModal} 
+      <Modal
+        open={openModal}
         onClose={() => setOpenModal(false)}
         sx={{
           backdropFilter: "blur(4px)",
@@ -612,11 +509,11 @@ export default function Step4() {
           <Button
             variant="contained"
             onClick={() => setOpenModal(false)}
-            sx={{ 
+            sx={{
               width: "100%",
               height: "55px",
               fontSize: "20px",
-              fontFamily: "medium", 
+              fontFamily: "medium",
               backgroundColor: "#01144f",
               transition: "all 0.3s ease",
               "&:hover": {

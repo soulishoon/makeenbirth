@@ -53,105 +53,107 @@ export default function Step3() {
   };
 
   // ارسال اطلاعات به سرور (POST)
-const handleNext = async () => {
-  if (phone.length !== 11 || !phone.startsWith("09")) {
-    setOpenPhoneModal(true);
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const step1 = JSON.parse(localStorage.getItem("signup-step1")) || {};
-    const step2 = JSON.parse(localStorage.getItem("signup-step2")) || {};
-    const step3 = {
-      fullName,
-      phone,
-      image,
-    };
-
-    const formData = new FormData();
-    formData.append("name", step3.fullName);
-    formData.append("status", step1.status || "");
-    formData.append("phoneNumber", step3.phone);
-    formData.append("field", step2.major || "");
-    formData.append("bootcampNumber", step2.bootcamp || "");
-    formData.append("ProgrammingLanguage", step2.language || "");
-
-    if (imageFile) {
-      const blob = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          fetch(reader.result)
-            .then(r => r.blob())
-            .then(resolve)
-            .catch(reject);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(imageFile);
-      });
-      formData.append("image", blob, "photo.png");
-    }
-
-    const url = getApiUrl("guest/store");
-    const res = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      throw new Error("خطا در ارسال اطلاعات");
-    }
-
-    // بررسی Content-Type برای پاسخ
-    const contentType = res.headers.get("content-type");
-    let responseData = null;
-    
-    // خواندن response به صورت text
-    const text = await res.text();
-    
-    // اگر HTML است، خطا بده
-    if (text.includes("<!doctype") || text.includes("<html")) {
-      console.error("Expected JSON but got HTML:", text.substring(0, 200));
-      throw new Error("RESPONSE_NOT_JSON");
-    }
-    
-    // سعی کن JSON پارس کنی
-    if (text && text.trim()) {
-      try {
-        responseData = JSON.parse(text);
-      } catch (e) {
-        console.error("Failed to parse JSON:", e);
-        // اگر نتوانستیم پارس کنیم، ادامه بده (ممکن است response خالی باشد)
-      }
-    }
-
-    // بررسی status: "full"
-    if (responseData && responseData.status === "full") {
-      setCapacityMessage(responseData.message || "ظرفیت پر شده است");
-      setOpenCapacityModal(true);
+  const handleNext = async () => {
+    if (phone.length !== 11 || !phone.startsWith("09")) {
+      setOpenPhoneModal(true);
       return;
     }
 
-    // ذخیره شماره تلفن
-    localStorage.setItem("signup-phone", phone);
+    setLoading(true);
 
-    // پاک کردن بقیه localStorage به جز signup-phone
-    Object.keys(localStorage).forEach((key) => {
-      if (key !== "signup-phone") {
-        localStorage.removeItem(key);
+    try {
+      const step1 = JSON.parse(localStorage.getItem("signup-step1")) || {};
+      const step2 = JSON.parse(localStorage.getItem("signup-step2")) || {};
+      const step3 = {
+        fullName,
+        phone,
+        image,
+      };
+
+      const formData = new FormData();
+      formData.append("name", step3.fullName);
+      formData.append("status", step1.status || "");
+      formData.append("phoneNumber", step3.phone);
+      formData.append("field", step2.major || "");
+      formData.append("bootcampNumber", step2.bootcamp || "");
+      formData.append("ProgrammingLanguage", step2.language || "");
+
+      if (imageFile) {
+        const blob = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            fetch(reader.result)
+              .then(r => r.blob())
+              .then(resolve)
+              .catch(reject);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(imageFile);
+        });
+        formData.append("image", blob, "photo.png");
       }
-    });
 
-    navigate("/create/step4");
-  } catch (err) {
-    // نمایش خطا در Modal به جای alert
-    setCapacityMessage(err.message || "خطایی رخ داده است. لطفا دوباره تلاش کنید.");
-    setOpenCapacityModal(true);
-  } finally {
-    setLoading(false);
-  }
-};
+      const url = getApiUrl("guest/store");
+      const res = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("خطا در ارسال اطلاعات");
+      }
+
+      // بررسی Content-Type برای پاسخ
+      const contentType = res.headers.get("content-type");
+      let responseData = null;
+
+      // خواندن response به صورت text
+      const text = await res.text();
+
+      // اگر HTML است، خطا بده
+      if (text.includes("<!doctype") || text.includes("<html")) {
+        console.error("Expected JSON but got HTML:", text.substring(0, 200));
+        throw new Error("RESPONSE_NOT_JSON");
+      }
+
+      // سعی کن JSON پارس کنی
+      if (text && text.trim()) {
+        try {
+          responseData = JSON.parse(text);
+        } catch (e) {
+          console.error("Failed to parse JSON:", e);
+          // اگر نتوانستیم پارس کنیم، ادامه بده (ممکن است response خالی باشد)
+        }
+      }
+
+      // بررسی status: "full"
+      // بررسی status: "full"
+      if (responseData && responseData.status === "full") {
+        setCapacityMessage(responseData.massage || responseData.message || "ظرفیت پر شده است");
+        setOpenCapacityModal(true);
+        return;
+      }
+
+
+      // ذخیره شماره تلفن
+      localStorage.setItem("signup-phone", phone);
+
+      // پاک کردن بقیه localStorage به جز signup-phone
+      Object.keys(localStorage).forEach((key) => {
+        if (key !== "signup-phone") {
+          localStorage.removeItem(key);
+        }
+      });
+
+      navigate("/create/step4");
+    } catch (err) {
+      // نمایش خطا در Modal به جای alert
+      setCapacityMessage(err.message || "خطایی رخ داده است. لطفا دوباره تلاش کنید.");
+      setOpenCapacityModal(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
 
@@ -254,8 +256,8 @@ const handleNext = async () => {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="مثال: علی رضایی"
-            sx={{ 
-              "& .MuiInputBase-root": { 
+            sx={{
+              "& .MuiInputBase-root": {
                 fontFamily: "regular",
                 transition: "all 0.3s ease"
               },
@@ -282,8 +284,8 @@ const handleNext = async () => {
             onChange={handlePhoneChange}
             placeholder="09123456789"
             inputMode="numeric"
-            sx={{ 
-              "& .MuiInputBase-root": { 
+            sx={{
+              "& .MuiInputBase-root": {
                 fontFamily: "regular",
                 transition: "all 0.3s ease"
               },
@@ -302,7 +304,7 @@ const handleNext = async () => {
           />
         </Box>
 
-        <Box sx={{ 
+        <Box sx={{
           pb: { xs: 3, sm: 3 },
           px: 1,
           flexShrink: 0
@@ -334,8 +336,8 @@ const handleNext = async () => {
         </Box>
       </Box>
 
-      <Modal 
-        open={openDeleteModal} 
+      <Modal
+        open={openDeleteModal}
         onClose={() => setOpenDeleteModal(false)}
         sx={{
           backdropFilter: "blur(4px)",
@@ -366,7 +368,7 @@ const handleNext = async () => {
           <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
             <Button
               variant="outlined"
-              sx={{ 
+              sx={{
                 fontFamily: "regular",
                 transition: "all 0.3s ease",
                 "&:hover": {
@@ -381,8 +383,8 @@ const handleNext = async () => {
 
             <Button
               variant="contained"
-              sx={{ 
-                backgroundColor: "#CF7721", 
+              sx={{
+                backgroundColor: "#CF7721",
                 fontFamily: "regular",
                 transition: "all 0.3s ease",
                 "&:hover": {
@@ -399,8 +401,8 @@ const handleNext = async () => {
         </Paper>
       </Modal>
 
-      <Modal 
-        open={openPhoneModal} 
+      <Modal
+        open={openPhoneModal}
         onClose={() => setOpenPhoneModal(false)}
         sx={{
           backdropFilter: "blur(4px)",
@@ -449,8 +451,8 @@ const handleNext = async () => {
         </Paper>
       </Modal>
 
-      <Modal 
-        open={openCapacityModal} 
+      <Modal
+        open={openCapacityModal}
         onClose={() => setOpenCapacityModal(false)}
         sx={{
           backdropFilter: "blur(4px)",
