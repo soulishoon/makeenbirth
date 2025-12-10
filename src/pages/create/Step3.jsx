@@ -141,7 +141,8 @@ const handleNext = async () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        height: { xs: "100dvh", sm: "100vh" },
+        minHeight: { xs: "-webkit-fill-available", sm: "100vh" },
         maxWidth: "500px",
         mx: "auto",
         display: "flex",

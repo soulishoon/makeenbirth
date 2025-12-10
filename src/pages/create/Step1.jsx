@@ -84,7 +84,8 @@ export default function Step1() {
   return (
     <Box
       sx={{
-        height: "100vh",
+        height: { xs: "100dvh", sm: "100vh" },
+        minHeight: { xs: "-webkit-fill-available", sm: "100vh" },
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
