@@ -385,52 +385,61 @@ export default function Step4() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
         maxWidth: "500px",
         mx: "auto",
         display: "flex",
         flexDirection: "column",
-        pb: 2
+        overflow: "hidden"
       }}
     >
       <Navbar step="step4" />
 
-      <Typography
-        sx={{
-         
-          textAlign: "center",
-          fontFamily: "regular",
-          fontSize: "20px",
-        }}
-      >
-        کارتت آماده شد 🎉
-      </Typography>
-
-      {/* CARD */}
       <Box
-        ref={cardRef}
         sx={{
-          width: { xs: "90%", sm: 330 },
-          maxWidth: 330,
-          height: { xs: "auto", sm: 550 },
-          aspectRatio: { xs: "330/550", sm: "auto" },
-          minHeight: 550,
-          mt: 2,
-          mx: "auto",
-          position: "relative",
-          backgroundImage: 'url("/images/card.jpg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderRadius: 3,
-          overflow: "hidden",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-          transition: "transform 0.3s ease",
-          "&:hover": {
-            transform: "translateY(-4px)",
-            boxShadow: "0 12px 32px rgba(0,0,0,0.2)"
-          }
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          overflowY: "auto",
+          px: 1
         }}
       >
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontFamily: "regular",
+            fontSize: "20px",
+            mt: 2
+          }}
+        >
+          کارتت آماده شد 🎉
+        </Typography>
+
+        {/* CARD */}
+        <Box
+          ref={cardRef}
+          sx={{
+            width: { xs: "90%", sm: 330 },
+            maxWidth: 330,
+            height: { xs: "auto", sm: 550 },
+            aspectRatio: { xs: "330/550", sm: "auto" },
+            minHeight: 550,
+            mt: 2,
+            mx: "auto",
+            position: "relative",
+            backgroundImage: 'url("/images/card.jpg")',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            borderRadius: 3,
+            overflow: "hidden",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+            transition: "transform 0.3s ease",
+            "&:hover": {
+              transform: "translateY(-4px)",
+              boxShadow: "0 12px 32px rgba(0,0,0,0.2)"
+            }
+          }}
+        >
         {/* PHOTO */}
         <Box
           sx={{
@@ -488,15 +497,17 @@ export default function Step4() {
         </Typography>
       </Box>
 
+      </Box>
+
       {/* BUTTONS */}
       <Box
         sx={{
-          mt: "auto",
           pb: { xs: 3, sm: 3 },
           px: 1,
           display: "flex",
           flexDirection: "column",
           gap: 2,
+          flexShrink: 0
         }}
       >
         <Button

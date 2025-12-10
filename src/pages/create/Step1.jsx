@@ -84,13 +84,13 @@ export default function Step1() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         maxWidth: "500px",
         mx: "auto",
-        pb: 2
+        overflow: "hidden"
       }}
     >
       <Navbar step="step1" />
@@ -103,7 +103,8 @@ export default function Step1() {
           flexDirection: "column",
           alignItems: "center",
           width: "100%",
-          px: 1
+          px: 1,
+          overflowY: "auto"
         }}
       >
         <RadioGroup
@@ -191,12 +192,12 @@ export default function Step1() {
 
         <Box
           sx={{
-            mt: "auto",
             pb: { xs: 3, sm: 3 },
             width: "100%",
             display: "flex",
             justifyContent: "center",
-            px: 1
+            px: 1,
+            flexShrink: 0
           }}
         >
           <Button

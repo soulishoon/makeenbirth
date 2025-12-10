@@ -56,12 +56,12 @@ export default function Step2() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
         mx: "auto",
-        pb: 2
+        overflow: "hidden"
       }}
     >
       <Navbar step="step2" />
@@ -74,7 +74,8 @@ export default function Step2() {
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          px: 1
+          px: 1,
+          overflowY: "auto"
         }}
       >
         {/* رشته */}
@@ -250,10 +251,10 @@ export default function Step2() {
       {/* دکمه ثابت پایین */}
       <Box
         sx={{
-            mt: { xs: "auto", lg: "auto  " },
             pb: { xs: 3, sm: 3 },
             width: "100%",
-            px: 1
+            px: 1,
+            flexShrink: 0
         }}
       >
         <Button

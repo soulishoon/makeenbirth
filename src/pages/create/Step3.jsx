@@ -141,24 +141,25 @@ const handleNext = async () => {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
         maxWidth: "500px",
         mx: "auto",
         display: "flex",
         flexDirection: "column",
-        pb: 2
+        overflow: "hidden"
       }}
     >
       <Navbar step="step3" />
 
       <Box
         sx={{
-          flex: 1,
+          flexGrow: 1,
           display: "flex",
           flexDirection: "column",
           gap: 3,
           px: 1,
-          mt: 3
+          mt: 3,
+          overflowY: "auto"
         }}
       >
         <Box
@@ -284,9 +285,9 @@ const handleNext = async () => {
         </Box>
 
         <Box sx={{ 
-          mt: "auto", 
           pb: { xs: 3, sm: 3 },
-          px: 1 
+          px: 1,
+          flexShrink: 0
         }}>
           <Button
             variant="contained"

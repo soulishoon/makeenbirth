@@ -6,9 +6,9 @@
 
 html, body {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   margin: 0;
   padding: 0;
@@ -30,9 +30,9 @@ html, body {
 
 #root {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
 }
 
@@ -54,37 +54,37 @@ html, body {
 @media (max-width: 768px) {
   html, body {
     width: 100%;
-    min-height: 100vh;
-    overflow-y: auto;
+    height: 100vh;
+    overflow-y: hidden;
   }
   
   @supports (height: 100dvh) {
     html, body {
-      min-height: 100dvh;
+      height: 100dvh;
     }
   }
   
   @supports (-webkit-touch-callout: none) {
     html, body {
-      min-height: -webkit-fill-available;
+      height: -webkit-fill-available;
     }
   }
   
   #root {
     width: 100%;
-    min-height: 100vh;
-    overflow-y: auto;
+    height: 100vh;
+    overflow-y: hidden;
   }
   
   @supports (height: 100dvh) {
     #root {
-      min-height: 100dvh;
+      height: 100dvh;
     }
   }
   
   @supports (-webkit-touch-callout: none) {
     #root {
-      min-height: -webkit-fill-available;
+      height: -webkit-fill-available;
     }
   }
 }

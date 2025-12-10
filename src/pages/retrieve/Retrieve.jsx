@@ -128,6 +128,7 @@ export default function Retrieve() {
           display: "flex",
           flexDirection: "column",
           gap: 3,
+          overflowY: "auto"
         }}
       >
         <TextField
